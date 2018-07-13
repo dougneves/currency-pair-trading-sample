@@ -1,0 +1,8 @@
+{
+  "name": "currency-pair-trading-sample",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://github.com/dougneves/currency-pair-trading-sample",
+  "author": "Douglas Neves <dougneves@gmail.com>",
+  "license": "MIT"
+}
