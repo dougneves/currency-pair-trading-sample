@@ -8,5 +8,5 @@ export const currencyFormatter = (value, digits) => {
     minimumFractionDigits: digits,
     useGrouping: false
   });
-  return formatter.format(value);
+  return formatter.format(Math.abs(value));
 };

@@ -28,8 +28,9 @@ class Trade extends Component {
     });
   };
   onAmountUSDBlur = () => {
+    const formatted = currencyFormatter(this.state.amountUSD, 2);
     this.setState({
-      amountUSD: currencyFormatter(this.state.amountUSD, 2)
+      amountUSD: isNaN(formatted) ? '' : formatted
     });
   };
   tradeButtonClicked = event => {
@@ -38,6 +39,7 @@ class Trade extends Component {
       this.props.dispatch(
         tradeUSDtoBTC(this.state.amountUSD, this.props.lastPrice.value)
       );
+      this.setState({ amountUSD: '' });
     } else {
       window.alert(
         `You don't have $${
@@ -80,7 +82,7 @@ class Trade extends Component {
         </div>
         <div>
           <button
-            disabled={this.props.lastPrice.fetching}
+            disabled={!this.props.lastPrice.fetched}
             onClick={this.tradeButtonClicked}
             className="btn"
           >
