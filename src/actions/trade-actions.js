@@ -4,7 +4,7 @@ import {
 } from '../utils/action-types';
 import { USDtoBTC } from '../utils/tools';
 
-export const tradeUSDtoBTCAction = (usdValue, lastPrice) => {
+export const tradeUSDtoBTC = (usdValue, lastPrice) => {
   return {
     type: CHANGE_ACCOUNT_BALANCE,
     payload: {

@@ -1,17 +1,50 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchLastPrice } from '../actions/last-price-actions';
+import { tradeUSDtoBTC } from '../actions/trade-actions';
+import { USDtoBTC, currencyFormatter } from '../utils/tools';
 
 class Trade extends Component {
   state = {
-    amountUSD: '',
-    amountBTC: 0
+    amountUSD: ''
+  };
+
+  componentDidMount = () => {
+    //update Last Price on first mount
+    this.updateLastPrice();
+
+    //update Last Price each 5 minutes
+    setInterval(this.updateLastPrice, 1000 * 60 * 5);
+  };
+
+  updateLastPrice = () => {
+    this.props.dispatch(fetchLastPrice());
   };
 
   onAmountUSDChanged = event => {
     const { value } = event.target;
     this.setState({
-      amountUSD: value,
-      amountBTC: value / this.props.USDBTCPrice
+      amountUSD: value
     });
+  };
+  onAmountUSDBlur = () => {
+    this.setState({
+      amountUSD: currencyFormatter(this.state.amountUSD, 2)
+    });
+  };
+  tradeButtonClicked = event => {
+    event.preventDefault();
+    if (this.props.accountBalance.usdBalance >= this.state.amountUSD) {
+      this.props.dispatch(
+        tradeUSDtoBTC(this.state.amountUSD, this.props.lastPrice.value)
+      );
+    } else {
+      window.alert(
+        `You don't have $${
+          this.state.amountUSD
+        } in your account at the moment. Please review your USD amount to trade.`
+      );
+    }
   };
 
   render = () => (
@@ -27,6 +60,8 @@ class Trade extends Component {
             name="amountUSD"
             value={this.state.amountUSD}
             onChange={this.onAmountUSDChanged}
+            onBlur={this.onAmountUSDBlur}
+            disabled={this.props.lastPrice.fetching}
           />
         </div>
         <h2>For</h2>
@@ -34,14 +69,28 @@ class Trade extends Component {
           <input disabled value="BTC" />
         </div>
         <div>
-          <input disabled name="amountBTC" value={this.state.amountBTC} />
+          <input
+            disabled
+            name="amountBTC"
+            value={currencyFormatter(
+              USDtoBTC(this.state.amountUSD, this.props.lastPrice.value),
+              8
+            )}
+          />
         </div>
         <div>
-          <button>Trade</button>
+          <button
+            disabled={this.props.lastPrice.fetching}
+            onClick={this.tradeButtonClicked}
+          >
+            Trade
+          </button>
         </div>
       </form>
     </section>
   );
 }
 
-export default Trade;
+export default connect(state => {
+  return { lastPrice: state.lastPrice, accountBalance: state.accountBalance };
+})(Trade);

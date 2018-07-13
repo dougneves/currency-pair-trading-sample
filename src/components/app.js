@@ -6,7 +6,7 @@ export default function(props) {
   return (
     <main>
       <AccountBalance />
-      <Trade USDBTCPrice="6287.23" />
+      <Trade />
     </main>
   );
 }
