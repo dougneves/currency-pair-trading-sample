@@ -82,6 +82,7 @@ class Trade extends Component {
           <button
             disabled={this.props.lastPrice.fetching}
             onClick={this.tradeButtonClicked}
+            className="btn"
           >
             Trade
           </button>

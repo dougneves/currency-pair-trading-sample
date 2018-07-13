@@ -17,7 +17,13 @@ const config = {
       },
       {
         test: /\.(html)$/,
+        exclude: /node_modules/,
         use: ['file-loader?name=index.html']
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   }

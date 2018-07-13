@@ -1,4 +1,5 @@
 import './index.html';
+import './css/main.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
