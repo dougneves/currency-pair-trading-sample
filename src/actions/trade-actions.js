@@ -1,7 +1,7 @@
 import {
   CHANGE_ACCOUNT_BALANCE,
   RESET_ACCOUNT_BALANCE
-} from '../utils/actions-types';
+} from '../utils/action-types';
 import { USDtoBTC } from '../utils/tools';
 
 export const tradeUSDtoBTCAction = (usdValue, lastPrice) => {
