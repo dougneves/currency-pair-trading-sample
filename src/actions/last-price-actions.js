@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   FETCH_LAST_PRICE,
   _FULFILLED,
@@ -9,12 +10,33 @@ export function fetchLastPrice() {
   return dispatch => {
     dispatch({ type: FETCH_LAST_PRICE + _PENDING });
 
-    //wait 2 seconds to emulate a network fetch
-    setTimeout(() => {
-      dispatch({
-        type: FETCH_LAST_PRICE + _FULFILLED,
-        payload: 6238.32
-      });
-    }, 2000);
+    axios
+      .get('/api/last_price')
+      .then(result => {
+        if (
+          !result ||
+          !result.data ||
+          (!result.data.last_price && !result.data.message)
+        )
+          return dispatch({
+            type: FETCH_LAST_PRICE + _REJECTED,
+            payload: 'Unknow Network Error. Please try again in a few seconds.'
+          });
+        if (result.data.message)
+          return dispatch({
+            type: FETCH_LAST_PRICE + _REJECTED,
+            payload: result.data.message
+          });
+        return dispatch({
+          type: FETCH_LAST_PRICE + _FULFILLED,
+          payload: result.data.last_price
+        });
+      })
+      .catch(ex =>
+        dispatch({
+          type: FETCH_LAST_PRICE + _REJECTED,
+          payload: ex.message
+        })
+      );
   };
 }
