@@ -1,30 +1,16 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { resetAccountBalance } from '../actions/trade-actions';
+import React from 'react';
 import { currencyFormatter } from '../utils/tools';
 
-class AccountBalance extends Component {
-  componentDidMount = () => {
-    this.props.dispatch(resetAccountBalance(156.12, 0));
-  };
+const AccountBalance = props => (
+  <section>
+    <h1>Account Balance</h1>
+    <div>
+      <span>USD:</span> ${currencyFormatter(props.usd, 2)}
+    </div>
+    <div>
+      <span>BTC:</span> {currencyFormatter(props.btc, 8)}
+    </div>
+  </section>
+);
 
-  render = () => (
-    <section>
-      <h1>Account Balance</h1>
-      <div>
-        <span>USD:</span> ${currencyFormatter(
-          this.props.accountBalance.usdBalance,
-          2
-        )}
-      </div>
-      <div>
-        <span>BTC:</span>{' '}
-        {currencyFormatter(this.props.accountBalance.btcBalance, 8)}
-      </div>
-    </section>
-  );
-}
-
-export default connect(state => {
-  return { accountBalance: state.accountBalance };
-})(AccountBalance);
+export default AccountBalance;
