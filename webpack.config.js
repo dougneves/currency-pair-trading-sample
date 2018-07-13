@@ -14,6 +14,10 @@ const config = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: 'babel-loader'
+      },
+      {
+        test: /\.(html)$/,
+        use: ['file-loader?name=index.html']
       }
     ]
   }
