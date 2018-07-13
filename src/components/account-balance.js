@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { resetAccountBalance } from '../actions/trade-actions';
+import { currencyFormatter } from '../utils/tools';
 
 class AccountBalance extends Component {
   componentDidMount = () => {
@@ -11,10 +12,14 @@ class AccountBalance extends Component {
     <section>
       <h1>Account Balance</h1>
       <div>
-        <span>USD:</span> ${this.props.accountBalance.usdBalance}
+        <span>USD:</span> ${currencyFormatter(
+          this.props.accountBalance.usdBalance,
+          2
+        )}
       </div>
       <div>
-        <span>BTC:</span> {this.props.accountBalance.btcBalance}
+        <span>BTC:</span>{' '}
+        {currencyFormatter(this.props.accountBalance.btcBalance, 8)}
       </div>
     </section>
   );
