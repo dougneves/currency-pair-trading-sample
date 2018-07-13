@@ -1,10 +1,12 @@
 import React from 'react';
 import AccountBalance from './account-balance';
+import Trade from './trade';
 
 export default function(props) {
   return (
-    <div>
+    <main>
       <AccountBalance />
-    </div>
+      <Trade />
+    </main>
   );
 }
